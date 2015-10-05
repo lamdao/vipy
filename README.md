@@ -1,4 +1,4 @@
-# vipy - A 3D image processing framework in Python
+## vipy - A 3D image processing framework in Python
 ------------------------------------------------------
 
 This framework allows to work with volume/stack images easily. Most of
