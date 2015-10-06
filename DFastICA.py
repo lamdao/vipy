@@ -12,31 +12,33 @@ import numpy as np
 class DFastICA(ExternalLib):
     """This is a wrapper class for FastICA.{dll,so,dylib} written in C/C++
 
-        >>> import numpy as np
-        >>> import DFastICA
-        >>> import SimpleMIV
-        >>> c1,_ = MIV_Load(r'data\c1.miv')
-        >>> c2,_ = MIV_Load(r'data\c2.miv')
-        >>> c3,d = MIV_Load(r'data\c3.miv')
-        >>> print "Image size =", d[:2]
-        >>> Dx = np.vstack((c1.ravel(), c2.ravel(), c3.ravel()))
-        >>> dfica = DFastICA()
-        >>> # Estimate mixing matrix
-        >>> Mx = dfica.Run(Dx)
-        >>> print Mx
-        >>> # Unmix with supplied mixing matrix
-        >>> Mx = np.array([
-        ...              [ 0.71261023, 0.02176309, 0.03955992],
-        ...              [ 0.42966614, 0.40058698, 0.17760640],
-        ...              [ 0.03191832, 0.04979355, 0.40215257]])
-        >>> Mx, Ux = dfica.Run(Dx, umix=Mx)
-        >>> Estimate and unmix
-        >>> Mx, Ux = dfica.Run(Dx, umix=True)
-        >>> Ux = Ux.reshape((d[1],d[0],3))
-        >>> print "Mx ="
-        >>> print Mx
-        >>> print "Unmixed data ="
-        >>> print type(Ux), Ux.shape
+    >>> # Get sample data at
+    >>> # https://www.dropbox.com/sh/4mgijapnn7hh83a/AAA9INbf2bj1IRU6gXW3AnMAa
+    >>> import numpy as np
+    >>> import SimpleMIV
+    >>> c1,_ = MIV_Load(r'data\c1.miv')
+    >>> c2,_ = MIV_Load(r'data\c2.miv')
+    >>> c3,d = MIV_Load(r'data\c3.miv')
+    >>> print "Image size =", d[:2]
+    >>> Dx = np.vstack((c1.ravel(), c2.ravel(), c3.ravel()))
+    >>> from DFastICA import DFastICA
+    >>> dfica = DFastICA()
+    >>> # Estimate mixing matrix
+    >>> Mx = dfica.Run(Dx)
+    >>> print Mx
+    >>> # Unmix with supplied mixing matrix
+    >>> Mx = np.array([
+    ...              [ 0.71261023, 0.02176309, 0.03955992],
+    ...              [ 0.42966614, 0.40058698, 0.17760640],
+    ...              [ 0.03191832, 0.04979355, 0.40215257]])
+    >>> Mx, Ux = dfica.Run(Dx, umix=Mx)
+    >>> # Estimate and unmix
+    >>> Mx, Ux = dfica.Run(Dx, umix=True)
+    >>> Ux = Ux.reshape((d[1],d[0],3))
+    >>> print "Mx ="
+    >>> print Mx
+    >>> print "Unmixed data ="
+    >>> print type(Ux), Ux.shape
     """
     def __init__(self):
         self.Init(self, 'FastICA')
