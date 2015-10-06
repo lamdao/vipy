@@ -44,7 +44,7 @@ class ExternalLib(object):
     @staticmethod
     def GetFullPath(dll):
         if XFile.Exists(dll):
-            return dll
+            return os.path.abspath(dll)
         dpath = ExternalLib.DEFAULT_SHARED_LIB_PATH
         if dpath is None:
             return dll
