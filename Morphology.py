@@ -16,7 +16,7 @@ class VolMorphology(ExternalLib):
         ExternalLib.Init(self, 'VolMorphology')
 
     def SetupParameters(self, Image, Structure, Gray=None):
-        p = list(Image.shape)
+        p = list(Image.shape[::-1])
         p.extend([Structure.shape[0], self.npt, bool(Gray)])
         self.Params = np.array(p, dtype=np.int32)
         self.Kernel = Structure.astype(np.uint16, copy=True)
