@@ -60,7 +60,7 @@ class VolFilters(ExternalLib):
         result = volume.AsType(float)
         rsizes = result.cdim
         ncpu = c_int32(self.npt)
-        self.AddParameters(rsizes, result, result, params, byref(ncpu))
+        self.AddParameters(rsizes, result, params, byref(ncpu))
         self.Execute(self.lib.vol_anisotropic_filter)
         return result
 
@@ -71,7 +71,7 @@ class VolFilters(ExternalLib):
         result = volume.AsType(float)
         rsizes = result.cdim
         ncpu = c_int32(self.npt)
-        self.AddParameters(rsizes, result, result, params, byref(ncpu))
+        self.AddParameters(rsizes, result, params, byref(ncpu))
         self.Execute(self.lib.vol_laplace_filter)
         return result
 
@@ -86,7 +86,7 @@ class VolFilters(ExternalLib):
         ncpu = c_int32(self.npt)
         vsizes = volume.cdim
         self.AddParameters(vsizes, volume, mask, byref(ncpu))
-        self.Execute(self.lib.vol_freq_mask)
+        self.Execute(self.lib.vol_maskfreq)
         return volume
 
     def MedianCDF(self, volume, kernel):

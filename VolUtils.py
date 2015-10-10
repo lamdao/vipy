@@ -377,9 +377,9 @@ class Volume(object):
         ep = sp + vol.vdim
         self.data[sp[2]:ep[2],sp[1]:ep[1],sp[0]:ep[0]] = vol.data
 
-    def Rescale(self, scales, mode='linear', rsize=None):
+    def Resize(self, scales, mode='linear', rsize=None):
         vp = VolProcess()
-        rv = vp.Rescale(self, scales, mode, rsize)
+        rv = vp.Resize(self, scales, mode, rsize)
         vp.Release()
         return rv
         

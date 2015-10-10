@@ -23,7 +23,7 @@ class VolProcess(ExternalLib):
     def __init__(self):
         ExternalLib.Init(self, 'VolProcess')
 
-    def Rescale(self, volume, scales, mode='linear', rsize=None):
+    def Resize(self, volume, scales, mode='linear', rsize=None):
         dim = ceil(volume.vdim * scales)
         if rsize is not None:
             dim = rsize
@@ -33,8 +33,8 @@ class VolProcess(ExternalLib):
         ncpu = c_int32(self.npt)
         mode = c_int32(self.RESCALE_METHOD_ID[mode])
 
-        self.AddParameters(rsizes, result, vsizes, volume, byref(ncpu), byref(mode))
-        self.Execute(self.lib.vol_rescale)
+        self.AddParameters(rsizes, result, vsizes, volume, byref(mode), byref(ncpu))
+        self.Execute(self.lib.vol_resize)
         return result
 
     def Mirror(self, volume, ext=None, fftsize=False):
