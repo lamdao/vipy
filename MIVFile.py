@@ -129,8 +129,8 @@ class MIV(Volume):
             self.filename = filename
         while self.filename == None or self.filename == '':
             self.filename = raw_input('Enter new filename: ').strip()
-            if self.filename != '' and XFile.GetExt(self.filename) != 'miv':
-                self.filename = XFile.NewExt(self.filename, 'miv')
+            if self.filename != '' and XFile.GetExt(self.filename) != MIV.DEFAULT_EXTENSION:
+                self.filename = XFile.NewExt(self.filename, MIV.DEFAULT_EXTENSION)
         print 'Saving data to %s ... ' % (self.filename),
         MIV.Write(self.filename, self.data, self.vsize, self.vunit, self.clist)
         print 'done.'
