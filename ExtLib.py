@@ -47,7 +47,9 @@ class ExternalLib(object):
             return os.path.abspath(dll)
         dpath = ExternalLib.DEFAULT_SHARED_LIB_PATH
         if dpath is None:
-            return dll
+            dpath = os.path.abspath('./lib')
+            if not XFile.PathExists(dpath):
+                return dll
         return dpath + os.sep + dll
 
     @staticmethod
