@@ -19,7 +19,7 @@ class VolFilters(ExternalLib):
 
     def PrepareKernel(self, kernel):
         if isinstance(kernel, int):
-            ksizes = np.array([1, kernel], dtype=int)
+            ksizes = np.array([1, kernel], dtype=np.int32)
             return ksizes, ksizes
         return kernel, kernel.cdim
 
