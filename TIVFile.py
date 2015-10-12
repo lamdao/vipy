@@ -7,7 +7,7 @@ Created on Tue Nov 12 14:15:23 2013
 """
 
 import numpy as np
-from vlfd.tifffile import TiffFile
+from tifffile import TiffFile
 from struct import pack
 from VolUtils import Volume
 
