@@ -26,7 +26,7 @@ class ExternalLib(object):
     def AddParameter(self, value):
         if isinstance(value, np.ndarray):
             self.args.append(cast(np.ctypeslib.as_ctypes(value), c_voidp))
-        elif value.__class__.__name__ in ['Volume', 'MIV', 'TIV']:
+        elif value.__class__.__name__ in ['Volume', 'MIV', 'TIV', 'RIV']:
             self.args.append(cast(np.ctypeslib.as_ctypes(value.data), c_voidp))
         else:
             self.args.append(cast(value, c_voidp))
