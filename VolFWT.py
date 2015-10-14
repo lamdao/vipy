@@ -25,30 +25,30 @@ class VolFWT(ExternalLib):
         self.AddParameters(source)
         self.Execute(self.lib.set_wavelet)
 
-    def BufFWT(self, buf, levels=1, forward=True):
+    def FWT1D(self, buf, levels=1, forward=True):
         src = buf
         dst = np.empty_like(src)
         dim = np.array([len(src), levels], dtype=np.int32)
         self.AddParameters(dim, src, dst)
-        self.Execute(self.lib.buf_fwt)
+        self.Execute(self.lib.fwt1d)
         return dst
 
-    def ImgFWT(self, img, levels=1, forward=True):
+    def FWT2D(self, img, levels=1, forward=True):
         src = img.AsType(float)
         dst = src.Clone(data=0)
         dim = src.cdim
         pwt = np.array([forward, levels], dtype=np.int32)
         ncpu = c_int32(self.npt)
         self.AddParameters(dim, src, dst, pwt, byref(ncpu))
-        self.Execute(self.lib.img_fwt)
+        self.Execute(self.lib.fwt2d)
         return src
 
-    def VolFWT(self, vol, levels=1, forward=True):
+    def FWT3D(self, vol, levels=1, forward=True):
         src = vol.AsType(float)
         dst = src.Clone(data=[])
         dim = src.cdim
         pwt = np.array([forward, levels], dtype=np.int32)
         ncpu = c_int32(self.npt)
         self.AddParameters(dim, src, dst, pwt, byref(ncpu))
-        self.Execute(self.lib.vol_fwt)
+        self.Execute(self.lib.fwt3d)
         return dst
