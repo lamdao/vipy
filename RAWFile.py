@@ -67,7 +67,7 @@ class RIV(Volume):
 
     def Load(self, filename):
         try:
-            if XFile.GetExt(filename) != 'raw':
+            if XFile.GetExt(filename) != RIV.DEFAULT_EXTENSION:
                 raise RIVError(-1)
             fn = XFile.CutExt(filename) # filename without ext
             mi = XFile.GetExt(fn)       # extract metainfo
