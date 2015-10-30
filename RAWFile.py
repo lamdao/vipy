@@ -40,7 +40,7 @@ class RIVError(Exception):
     }
 
     def __init__(self, error_code, info = ''):
-        self.message = RAWError.ERRORS[error_code]
+        self.message = RIVError.ERRORS[error_code]
         self.info = info
 #-----------------------------------------------------------------------------
 class RIV(Volume):
