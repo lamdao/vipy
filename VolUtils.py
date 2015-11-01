@@ -340,11 +340,11 @@ class Volume(object):
                 filename = raw_input('Enter new filename: ').strip()
             hdf = h5py.File(filename, 'r')
             if 'vclzid' not in hdf.attrs.keys():
-                print filename, 'seems to not be vipy hdf5 volume format.'
+                print filename, 'is not vipy hdf5 volume format.'
                 return False
             vid = hdf.attrs['vclzid']
             if vid not in ['Volume', 'MIV', 'TIV', 'RIV', 'DIV']:
-                print filename, 'seems to not be vipy hdf5 volume format.'
+                print filename, 'is not vipy hdf5 volume format.'
                 print 'Try to load anyway...'
             vds = hdf['volume']
             vol = clz(vds.value)
