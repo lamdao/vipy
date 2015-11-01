@@ -6,6 +6,7 @@ Created on Mon Nov 18 14:20:53 2013
                      <daohailam(at)yahoo(dot)com>
 """
 #------------------------------------------------------------------------------
+import sys
 import numpy as np
 import numexpr as nx
 from numpy import uint8, int32
@@ -309,6 +310,56 @@ class Volume(object):
                 self.data.tofile(self.filename)
         except TypeError:
             pass
+
+    def SaveHDF5(self, filename=None):
+        try:
+            import h5py
+            if isinstance(filename,str):
+                self.filename = filename
+            if not isinstance(self.filename,str):
+                self.filename = raw_input('Enter new filename: ').strip()
+            hdf = h5py.File(XFile.NewExt(self.filename, 'h5v'), 'w')
+            vds = hdf.create_dataset('volume', data=self.data)
+            vds.attrs['voxel_size'] = self.vsize
+            vds.attrs['voxel_unit'] = self.vunit
+            vds.attrs['n_channels'] = self.nchan
+            vds.attrs['vcolorlist'] = self.clist
+            hdf.attrs['vclzid'] = self.__class__.__name__
+            hdf.close()
+        except ImportError:
+            print 'Error: h5py module is required to save to HDF5 format'
+        except:
+            print 'Unexpected error:', sys.exc_info()[0]
+
+    @classmethod
+    def LoadHDF5(clz, filename):
+        try:
+            import h5py
+
+            if not isinstance(filename,str):
+                filename = raw_input('Enter new filename: ').strip()
+            hdf = h5py.File(filename, 'r')
+            if 'vclzid' not in hdf.attrs.keys():
+                print filename, 'seems to not be vipy hdf5 volume format.'
+                return False
+            vid = hdf.attrs['vclzid']
+            if vid not in ['Volume', 'MIV', 'TIV', 'RIV', 'DIV']:
+                print filename, 'seems to not be vipy hdf5 volume format.'
+                print 'Try to load anyway...'
+            vds = hdf['volume']
+            vol = clz(vds.value)
+            vol.vsize = vds.attrs['voxel_size']
+            vol.vunit = vds.attrs['voxel_unit']
+            vol.nchan = vds.attrs['n_channels']
+            vol.clist = vds.attrs['vcolorlist']
+            hdf.close()
+            return vol
+        except ImportError:
+            print 'Error: h5py module is required to save to HDF5 format'
+        except:
+            print 'Unexpected error:', sys.exc_info()[0]
+
+        return False
 
 #
 #   Volume manipulation methods
