@@ -311,7 +311,7 @@ class Volume(object):
         except TypeError:
             pass
 
-    def SaveHDF5(self, filename=None):
+    def SaveHDF5(self, filename=None, compression=None, level=6):
         try:
             import h5py
             if isinstance(filename,str):
@@ -319,7 +319,16 @@ class Volume(object):
             if not isinstance(self.filename,str):
                 self.filename = raw_input('Enter new filename: ').strip()
             hdf = h5py.File(XFile.NewExt(self.filename, 'h5v'), 'w')
-            vds = hdf.create_dataset('volume', data=self.data)
+            vds = None
+            if compression == 'gzip' and isinstance(level,int):
+                vds = hdf.create_dataset('volume', data=self.data,
+                                        compression=compression,
+                                        compression_opts=level)
+            elif compression == 'lzf':
+                vds = hdf.create_dataset('volume', data=self.data,
+                                        compression=compression)
+            else:
+                vds = hdf.create_dataset('volume', data=self.data)
             vds.attrs['voxel_size'] = self.vsize
             vds.attrs['voxel_unit'] = self.vunit
             vds.attrs['n_channels'] = self.nchan
